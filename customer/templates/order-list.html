@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Store</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{%static 'assets/favicon.ico'%}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{%static 'css/styles.css'%}" rel="stylesheet" />
+    </head>
+    <body>
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+    <h1 class="text-center display-5 fw-bolder">MY ORDERS</h1>
+    <hr class="">
+    {% if orders%}
+       {% for order in orders%}
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                {% if order.product.image %}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" style="height: 500px; width: 300px;" src="{{order.product.image.url}}" alt="..." /></div>
+                {% else%}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"  src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                {% endif%}
+                <div class="col-md-6">
+                <div class="small mb-1">SKU: BST-{{order.product.id}}</div>
+                    <h1 class="display-5 fw-bolder">{{order.product.name}}</h1>
+                    <div class="fs-5 mb-5">
+                        <span class="">Price</span>
+                        <span>${{order.product.price}}</span>
+                    </div>
+                    <p class="lead">category:{{order.product.category}}</p>
+                    <p class="lead">{{order.product.description}}</p>
+                    <div class="d-flex">
+                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"  style="max-width: 3rem  " />
+                        {% if order.status == "cancelled" %}
+                        
+                        <span class="text-danger">Order Cancelled</span>
+                        {% else %}
+                        <a href="{% url 'order-cancel' order.id%}"  class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cancel Order
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {%endfor%}
+    {% else%}
+    <div class="row text-center"><h1 >Your Have  No Orders</h1></div>
+    {% endif%}
+    <button class="btn btn-info"><a style="text-decoration: none;" class="text-white" href="{{request.META.HTTP_REFERER}}">GO Back</a></button>
+
+    </div>
+   
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{% static 'js/script.js'%}"></script>
+</body>
+</html>

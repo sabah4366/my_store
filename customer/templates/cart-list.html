@@ -1,0 +1,55 @@
+{% extends 'base.html'%}
+{% block body %}
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+    {% if carts%}
+       {% for cart in carts%}
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                {% if cart.product.image %}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" style="height: 500px; width: 300px;" src="{{cart.product.image.url}}" alt="..." /></div>
+                {% else%}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"  src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                {% endif%}
+                <div class="col-md-6">
+                <div class="small mb-1">SKU: BST-{{cart.product.id}}</div>
+                    <h1 class="display-5 fw-bolder">{{cart.product.name}}</h1>
+                    <div class="fs-5 mb-5">
+                        <span class="">Price</span>
+                        <span>${{cart.product.price}}</span>
+                    </div>
+                    <p class="lead">category:{{cart.product.category}}</p>
+                    <p class="lead">{{cart.product.description}}</p>
+                    <div class="d-flex">
+                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                    
+                        <a href="{% url 'place-order' cart.id cart.product.id%}"  class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            Buy Now
+                        </a>
+                        <a href="{% url 'carts-delobj' cart.id%}" class="btn btn-outline-dark flex-shrink-0 ms-2" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            Remove
+                        </a>
+                
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {%endfor%}
+    {% else%}
+    <div class="row text-center"><h1 >Your Card is Empty</h1></div>
+    {% endif%}
+    </div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            {% if carts%}
+            <strong>Total:</strong> {{tot.tot}}
+            {% endif%}
+        </div>
+    </div>
+</section>
+
+{%endblock%}
